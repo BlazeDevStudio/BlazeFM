@@ -1,0 +1,68 @@
+name: BlazeFM independent Android validation
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/blazefm-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'app/**'
+      - 'build.gradle'
+      - 'settings.gradle'
+      - 'gradle.properties'
+      - '.github/workflows/blazefm-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blazefm-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Set up Gradle 8.9
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Install Android SDK 35
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager -print -quit)"
+          test -n "$SDKMANAGER"
+          "$SDKMANAGER" --install 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Compile debug and unsigned release, run lint
+        run: gradle --no-daemon --stacktrace :app:assembleDebug :app:assembleRelease :app:lint
+      - name: Verify APKs and preserve hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          test -s app/build/outputs/apk/release/app-release-unsigned.apk
+          cp app/build/outputs/apk/debug/app-debug.apk dist/BlazeFM-v1.3.3-debug.apk
+          cp app/build/outputs/apk/release/app-release-unsigned.apk dist/BlazeFM-v1.3.3-unsigned.apk
+          (cd dist && sha256sum *.apk > SHA256SUMS.txt)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BlazeFM-v1.3.3-validated-build-${{ github.run_id }}
+          path: dist/
+          retention-days: 7
+          if-no-files-found: error
