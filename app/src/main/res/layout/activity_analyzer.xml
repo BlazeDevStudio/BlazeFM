@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/blaze_background">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/analyzer_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="Storage Analyzer"
+        app:subtitle="Space, categories and largest files" />
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/analyzer_progress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:indicatorColor="@color/blaze_primary"
+        app:trackColor="@color/blaze_surface_variant" />
+
+    <TextView
+        android:id="@+id/analyzer_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="4dp"
+        android:text="Scanning…"
+        android:textAppearance="?attr/textAppearanceBodySmall"
+        android:textColor="@color/blaze_on_surface_variant" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="12dp"
+            android:paddingTop="6dp"
+            android:paddingEnd="12dp"
+            android:paddingBottom="18dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/blaze_surface_variant"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:id="@+id/analyzer_scope"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:ellipsize="middle"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="@color/blaze_on_surface_variant" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:id="@+id/analyzer_data" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textAppearance="?attr/textAppearanceTitleLarge" android:textColor="@color/blaze_on_surface"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="File data" android:textAppearance="?attr/textAppearanceBodySmall" android:textColor="@color/blaze_on_surface_variant"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:id="@+id/analyzer_files" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textAppearance="?attr/textAppearanceTitleLarge" android:textColor="@color/blaze_on_surface"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Files" android:textAppearance="?attr/textAppearanceBodySmall" android:textColor="@color/blaze_on_surface_variant"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:id="@+id/analyzer_folders" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textAppearance="?attr/textAppearanceTitleLarge" android:textColor="@color/blaze_on_surface"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Folders" android:textAppearance="?attr/textAppearanceBodySmall" android:textColor="@color/blaze_on_surface_variant"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:id="@+id/analyzer_empty_folders" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:textAppearance="?attr/textAppearanceTitleLarge" android:textColor="@color/blaze_on_surface"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Empty folders" android:textAppearance="?attr/textAppearanceBodySmall" android:textColor="@color/blaze_on_surface_variant"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="18dp"
+                android:text="Storage by type"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="@color/blaze_on_surface" />
+
+            <LinearLayout
+                android:id="@+id/analyzer_categories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="18dp"
+                android:text="Largest files"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="@color/blaze_on_surface" />
+
+            <LinearLayout
+                android:id="@+id/analyzer_largest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/analyzer_cancel"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="14dp"
+        android:text="Cancel scan"
+        app:icon="@drawable/ic_cancel" />
+</LinearLayout>
