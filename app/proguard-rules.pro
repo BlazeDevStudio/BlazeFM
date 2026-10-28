@@ -1,0 +1,10 @@
+-dontwarn javax.servlet.**
+-dontwarn org.slf4j.**
+-dontwarn org.bouncycastle.**
+-keep class com.jcraft.jsch.** { *; }
+-keep class jcifs.** { *; }
+-dontwarn com.sun.jna.**
+-dontwarn org.newsclub.net.unix.**
+-dontwarn javax.security.auth.**
+-dontwarn org.ietf.jgss.**
+-dontwarn org.apache.logging.log4j.**
